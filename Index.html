@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graph Coloring Solver</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Graph Coloring Solver</h1>
+    <p>List the things that cannot go together. This finds the fewest groups (tanks, traffic phases, exam slots, map colors) that keep every conflicting pair apart.</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel problem" aria-labelledby="ph">
+      <h2 id="ph">Problem</h2>
+      <div class="fields">
+        <div>
+          <label for="preset">Start from an example</label>
+          <div class="pick">
+            <select id="preset"></select>
+            <button id="rand" type="button" title="Make a new random problem">Random</button>
+          </div>
+        </div>
+        <div>
+          <label for="noun">Group name</label>
+          <input id="noun" type="text" value="Tank" maxlength="16" autocomplete="off">
+        </div>
+      </div>
+      <label for="src">Items and their conflicts</label>
+      <textarea id="src" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+      <ul class="warn" id="warn"></ul>
+      <details>
+        <summary>How to write the problem</summary>
+        <ul>
+          <li>One item per line, followed by a colon and the items it conflicts with: <code>F1: F2, F3, F4</code></li>
+          <li>Or one pair per line: <code>A-B</code>, <code>A,B</code> or <code>A B</code></li>
+          <li>A name on its own line adds an item with no conflicts.</li>
+          <li>You only need to list each conflict once. Lines starting with <code>#</code> are notes.</li>
+          <li>Names cannot contain spaces, commas, colons or hyphens. Up to 120 items.</li>
+          <li>You can also edit the graph directly: turn on Edit, click empty space to add an item, and click two items to add or remove a conflict.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="panel graph" aria-labelledby="gh">
+      <h2 id="gh">Conflict graph</h2>
+      <div class="toolbar">
+        <button id="edit" type="button" aria-pressed="false">Edit graph</button>
+        <button id="del" type="button" disabled>Delete selected</button>
+        <button id="tidy" type="button">Tidy layout</button>
+      </div>
+      <p class="hint" id="hint"></p>
+      <svg id="graph" viewBox="0 0 520 520" role="img" aria-label="Conflict graph"></svg>
+    </section>
+
+    <section class="panel answer" aria-labelledby="ah" aria-live="polite">
+      <h2 id="ah">Answer</h2>
+      <div class="answer-top"><span class="big" id="big">-</span><span class="lbl" id="lbl"></span></div>
+      <p class="why" id="why"></p>
+      <div class="status" id="status"></div>
+      <div class="actions">
+        <button id="replay" class="primary" type="button">Replay coloring</button>
+        <button id="copy" type="button">Copy result</button>
+        <span class="note" id="note"></span>
+      </div>
+      <textarea id="copybox" readonly hidden aria-label="Result text"></textarea>
+      <div class="tanks" id="tanks"></div>
+      <div class="sel" id="sel"></div>
+    </section>
+  </div>
+</div>
+<script src="solver.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
